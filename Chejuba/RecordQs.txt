@@ -1,0 +1,17 @@
+Chejuba Company
+
+Why should we hire you?
+Hi myself prakhar here, you should hire me because i can automate mundane repeating task
+of colleagues very easily and implement new features very quickly by getting my hands 
+dirty on new technologies like python and react js. I also understand the importance of
+creating an scalable web applications.
+I also can discover bugs easily by going through someone else's code and open to 
+implement my own code by improving every single day.
+
+Tell me about a time you had to learn something quickly.
+A time I remember when I had to learn something quickly was doing the automation work 
+of implementation of printing thousands of barcodes.Since there was a time constraint
+of implementing this in a short period of time.I solved the problem with the help of 
+dynamic programming to store the states of barcodes and print them in minutes instead
+of hours. Later on I moved on towards making an executable version of software by 
+implementing a GUI in windows.

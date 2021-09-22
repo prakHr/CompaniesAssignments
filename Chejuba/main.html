@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+    <head> <title>Calling API</title></head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <style>  * {box-sizing: border-box}
+body {font-family: "Lato", sans-serif;}
+
+/* Style the tab */
+.tab {
+  float: left;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  width: 30%;
+  height: 300px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 22px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  float: left;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  height: 300px;
+  display: none;
+}
+
+/* Clear floats after the tab */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+</head>
+<body>
+
+<h2>Hover Tabs</h2>
+<p>Move the mouse over a button inside the tabbed menu:</p>
+
+<!-- <h3>https://stackoverflow.com/questions/53799108/how-to-add-a-loading-animation-while-fetch-data-from-api-vanilla-js</h3> 
+https://www.js-tutorials.com/jquery-tutorials/live-search-json-objects-data-using-jquery/
+-->
+<div class="container" style="padding:50px 250px;">
+	<form role="form">
+        <div class="form-group">
+          <input type="input" class="form-control input-lg" id="txt-search" placeholder="Type your search character">
+          <input type="reset" value="Reset">
+        </div>
+
+	</form>
+	<div id="filter-records"></div>
+  </div>
+<div class="boxLoading"></div>
+        <div id="movieResult"></div>
+        <script>
+            function remove(me) {
+                           document.getElementById(me).outerHTML = ""
+                        }
+            const req1 = () => {
+            let loader = `<div class="boxLoading">Loading...</div>`;
+            document.getElementById('movieResult').innerHTML = loader;
+            fetch( "https://jsonplaceholder.typicode.com/posts")
+                .then(response => response.json())
+                .then(function (data) {
+                    let result = `<h2> Json Posts I've watched! </h2>`;
+                    categories=['thirds','fifths','magic',undefined];
+                    let selectedData1=[],selectedData2=[],selectedData3=[],selectedData4=[];
+                    let htmlData1,htmlData2,htmlData3,htmlData4;
+                    $('#txt-search').keyup(function(){
+                        var searchField = $(this).val();
+                        if(searchField === '')  {
+                            $('#filter-records').html('');
+                            return;
+                        }
+                        
+                        var regex = new RegExp(searchField, "i");
+                        var output = '<div class="row">';
+                        var count = 1;
+                        
+                        $.each(data, function(key, val){
+                            
+                            if ((val.title.search(regex) != -1) || (val.body.search(regex) != -1)) {
+                           // output += '<div class="col-md-6 well">';
+                           // output += '<div class="col-md-3"><img class="img-responsive" src="'+val.profile_image+'" alt="'+ val.employee_name +'" /></div>';
+                            output += '<div class="col-md-7" id="'+val.id+'" >';
+                            output += '<h5>' + val.title + '</h5>';
+                            output += '<p>' + val.body + '</p>';
+                            output += '<button id="'+val.id+'" onclick="remove(this.id);">' + 'TrashCan' + '</button>';
+                            output += '</div>';
+                            output += '</div>';
+                            if(count%2 == 0){
+                                output += '</div><div class="row">'
+                            }
+                            count++;
+                            }
+                        });
+                        output += '</div>';
+                        $('#filter-records').html(output);
+                    });
+                    data.forEach((movie) => {
+                        let {id, userId, title,category,body} = movie;
+                        if(id % 3==0 && id % 5==0){
+                            category='magic';
+                            selectedData1.push([{id, userId, title,category,body}]);
+                            htmlData1+=`<h5> Movie ID: ${id} </h5>
+                                <ul>
+                                    <li>id: ${id}</li>
+                                    <li>userId: ${userId}</li>
+                                    <li>title: ${title}</li>
+                                    <li>body: ${body}</li>
+                                    <li>category: ${category}</li>
+                                </ul>`;
+                        }
+                        else if(id % 5==0){
+                            category='fifths';
+                            selectedData2.push([{id, userId, title,category,body}]);
+                            htmlData2+=`<h5> Movie ID: ${id} </h5>
+                                <ul>
+                                    <li>id: ${id}</li>
+                                    <li>userId: ${userId}</li>
+                                    <li>title: ${title}</li>
+                                    <li>body: ${body}</li>
+                                    <li>category: ${category}</li>
+                                </ul>`;
+                        }
+                        else if(id % 3==0){
+                            category='thirds';
+                            selectedData3.push([{id, userId, title,category,body}]);
+                            htmlData3+=`<h5> Movie ID: ${id} </h5>
+                                <ul>
+                                    <li>id: ${id}</li>
+                                    <li>userId: ${userId}</li>
+                                    <li>title: ${title}</li>
+                                    <li>body: ${body}</li>
+                                    <li>category: ${category}</li>
+                                </ul>`;
+                        }
+                        else{
+                            selectedData4.push([{id, userId, title,category,body}]);
+                            htmlData4+=`<h5> Movie ID: ${id} </h5>
+                                <ul>
+                                    <li>id: ${id}</li>
+                                    <li>userId: ${userId}</li>
+                                    <li>title: ${title}</li>
+                                    <li>body: ${body}</li>
+                                    <li>category: ${category}</li>
+                                </ul>`;
+                        }
+                        // console.log(selectedData3);
+                        // console.log(selectedData1);
+                        // selectedData1.forEach((movie) => {
+                        //     let {id, userId, title,category,body} = movie;
+                        // });
+                            
+                        result=`
+                        <div class="tab">
+                                <button class="tablinks" onmouseover="openCity(event, 'magic')">magic</button>
+                                <button class="tablinks" onmouseover="openCity(event, 'fifths')">fifths</button>
+                                <button class="tablinks" onmouseover="openCity(event, 'thirds')">thirds</button>
+                            </div>
+                            <div id="magic" class="tabcontent">
+                                `+htmlData1+`
+                                
+                            </div>
+
+                            <div id="fifths" class="tabcontent">
+                                `+htmlData2+`
+                            </div>
+
+                            <div id="thirds" class="tabcontent">
+                                `+htmlData3+`
+                            </div>
+
+                            <div class="clearfix"></div>
+
+
+                        `;
+                        // result +=
+                        //     `
+                            
+
+                        //     <div>
+                        //         <h5> Movie ID: ${id} </h5>
+                        //         <ul>
+                        //             <li>id: ${id}</li>
+                        //             <li>userId: ${userId}</li>
+                        //             <li>title: ${title}</li>
+                        //             <li>body: ${body}</li>
+                        //             <li>category: ${category}</li>
+                        //         </ul>
+                        //     </div>`;
+                        document.getElementById('movieResult').innerHTML = result;
+                    })
+
+                })
+            };
+        </script>
+        <button class="news-btn-div" data-tab="news-2" onclick="req1()">SET DATA</button>
+       
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+    
+        </div>
+    </body>
+    
+</html>
