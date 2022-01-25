@@ -1,0 +1,11 @@
+https://github.com/Nath9319/Incident-Resolution-Prediction-for-IT-Support/blob/main/Incident%20Resolution%20Prediction.ipynb
+1.We have to make a target variable
+2.Then plot some graphs(Done)
+3.Create a sparse matrix(Done)
+4.train test split(Done)
+5.use hyperopt(done)
+6.Sparse metrics creation(done)
+my36v2
+7.make a conda_list and pip_list file and save it(Done)
+9.Make a copy and run one more time(save the output of timestamp graphs)
+8.Submit the assignment
